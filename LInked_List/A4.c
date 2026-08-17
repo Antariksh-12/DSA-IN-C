@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Indertion of nodes in Linled List
 
 typedef struct node{
     int data;
@@ -16,6 +17,68 @@ void display(node* ptr){
     }
 }
 
+/* 
+node* insertatbeginnig(node* head , int value) {
+node*ptr = (node*)malloc(sizeof(node));
+//O(1)
+ptr->data=value;
+ptr->next=head;
+head=ptr;
+
+return ptr;
+*/
+
+/*
+node* insertatindex(node *head , int value , int index){
+O(n)
+node* ptr = (node*)malloc(sizeof(node));
+node* p = head;
+
+
+int i=0;
+while(i! =index-1){
+p=p->next;
+i++;}
+
+ptr->next=p->next;
+ptr->data=value;
+p->next=ptr;
+
+return ptr;
+
+}
+*/
+
+/*
+node* inderatend(node* head , int value){
+0(n);
+node* ptr = (node*)malloc(sizeof(node));
+node* p = head;
+
+int i=0;
+while(p->next!=NULL){
+p=p->next;
+i++;}
+
+p->next=ptr;
+ptr->data=value;
+ptr->next=NULL;
+
+return ptr;
+}
+*/
+
+
+/*
+node* insertafternode(node* head , node*previous , int data){
+node* ptr = (node*)malloc(sizeof(node));
+//O(1)
+ptr->next=previous->next;
+ptr->data=value;
+previous->next=ptr;
+
+
+}*/
 node* insertatbeginning(node* head , int data){
 
     node *ptr = (node*)malloc(sizeof(node));
@@ -30,7 +93,7 @@ node* insertatbeginning(node* head , int data){
 node* insertatindex(node * head , int data , int index){
 
     node *ptr = (node*)malloc(sizeof(node));
-    struct node* p = head;
+     node* p = head;
 
     int i=0;
     while(i!=index-1){ 
@@ -65,9 +128,10 @@ node* insertatend(node* head , int data){
 node* insertafternode(node* head , node* previous , int data){
 
     node* ptr = (node*)malloc(sizeof(node));
-    previous->next=ptr;
-    ptr->next=NULL;
+    
+    ptr->next=previous->next;
     ptr->data=data;
+    previous->next=ptr;
 
     return ptr;
 
