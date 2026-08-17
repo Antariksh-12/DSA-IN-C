@@ -14,9 +14,102 @@ void display(node * ptr){
     }
 }
 
+//deleting = free the heap memory
+
+
+/*
+
+1.) node* deleteatbeginning(node* head){
+
+node* p = head;
+
+head=head->next;
+free(p);
+
+return head;
+}
+
+*/
+
+/*
+
+2.) node* deleteatindex(node* head , int index){
+
+node* p = head;
+node* q = head->next;
+int i=0;
+
+while(i!=index-1 || q!=NULL){
+
+
+p=p->next;
+q=q->next;
+i++;}
+
+if(q==NULL){
+return head;
+}
+
+
+p->next=q->next;
+free(q);
+
+return head;
+}
+
+*/
+
+/*
+
+3.) node * deleteatend(node* head){
+
+node* p = head;
+node* q=  head->next;
+
+int i=0;
+
+while(q->next!=NULL){
+p=p->next;
+q=q->next;
+i++;}
+
+p->next=NULL;
+free(q);
+
+return head;
+*/
+
+/*
+
+4.) node* deletenode(node* head , int value){
+
+node*p = head;
+node* q = head->next;
+
+int i=0;
+while(q!=NULL && q->data!=value){
+q=q->next;
+p=p->next;
+
+if(q==NULL){
+return head;}
+
+i+++;}
+
+p->next=q->next;
+free(q);
+
+return head;
+}
+
+
+
+
+*/
 node* deleteatbeginning(node * head){
 
-    node *p;
+    // node *p = head;
+    node* p;
 
     p = head;
     head = head->next;
