@@ -1,142 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node {
+typedef struct node{
     int data;
     struct node* next;
-} node;
+}node;
 
+int isempty(node* top){
 
-// Check whether stack is empty
-int isempty(node* top) {
-
-    if (top == NULL) {
+    if(top==NULL){
         return 1;
     }
+    return -1;
+}
 
-    return 0;
+int isfull(node* top){
+    
+    node* p = (node*)malloc(sizeof(node));
+    if(p==NULL){
+        return 1;
+    }
+    return -1;
+
+    free(p);
+}
+
+node* push(node* top , int value){
+
+    node* p = (node*)malloc(sizeof(node));
+
+    p->data=value;
+    p->next=top;
+    top=p;
+    
+    return top;
+}
+ 
+node* pull(node* top){
+
+    node*p = (node*)malloc(sizeof(node));
+    if(isempty(top)){
+        printf("Stack underflow");
+    }
+
+    printf("Topmost element :%d\n",top->data);
+
+    p=top;
+    top=top->next;
+    free(p);
+
+    return top;
+}
+
+void traversal(node* top){
+
+    node* p = top;
+
+    while(p!=NULL){
+        printf("Element :%d\n",p->data);
+        p=p->next;
+    }
 }
 
 
-// Push an element into the stack
-void push(node** top, int value) {
+int main(){
 
-    node* s = (node*)malloc(sizeof(node));
-
-    if (s == NULL) {
-        printf("Stack is full\n");
-        return;
-    }
-
-    s->data = value;
-    s->next = *top;
-
-    *top = s;
-}
-
-
-// Pop an element from the stack
-void pop(node** top) {
-
-    if (isempty(*top)) {
-        printf("Stack is empty\n");
-        return;
-    }
-
-    node* ptr = *top;
-
-    printf("Element: %d\n", ptr->data);
-
-    *top = (*top)->next;
-
-    free(ptr);
-}
-
-
-// Display the top element
-void peek(node* top) {
-
-    if (isempty(top)) {
-        printf("Stack is empty\n");
-        return;
-    }
-
-    printf("Topmost element: %d\n", top->data);
-}
-
-
-// Display the complete stack
-void display(node* top) {
-
-    if (isempty(top)) {
-        printf("Stack is empty\n");
-        return;
-    }
-
-    printf("Stack: ");
-
-    while (top != NULL) {
-        printf("%d ", top->data);
-        top = top->next;
-    }
-
-    printf("\n");
-}
-
-
-int main() {
-
-    // Initially stack is empty
     node* top = NULL;
 
+    top=push(top,12);
+    top=push(top,29);
+    top=push(top,30);
+    top=push(top,31);
+    top=push(top,32);
 
-    // Check if stack is empty
-    if (isempty(top)) {
-        printf("Stack is empty\n");
-    }
-    else {
-        printf("Stack is not empty\n");
-    }
+    traversal(top);
 
+    top = pull(top);
+    top = pull(top);
+    top = pull(top);
 
-    // Push elements
-    push(&top, 10);
-    push(&top, 20);
-    push(&top, 30);
-
-
-    // Display stack
-    display(top);
-
-
-    // Peek
-    peek(top);
-
-
-    // Pop
-    pop(&top);
-
-
-    // Display after pop
-    display(top);
-
-
-    // Peek again
-    peek(top);
-
-
-    // Pop remaining elements
-    pop(&top);
-    pop(&top);
-
-
-    // Check stack after all elements are removed
-    if (isempty(top)) {
-        printf("Stack is empty\n");
-    }
-    else {
-        printf("Stack is not empty\n");
-    }
+    traversal(top);
 
 
     return 0;

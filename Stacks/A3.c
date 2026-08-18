@@ -1,108 +1,100 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct node {
+typedef struct node{
     int data;
     struct node* next;
-} node;
+}node;
 
-node* top = NULL;
+int isempty(node* top){
+    if(top==NULL){
+        return 1;
+    }
+    return 0;
+}
 
+int isfull(node* top){
 
-// PUSH
-void push(int data) {
+    node* n = (node*)malloc(sizeof(node));
+    if(n==NULL){//DMA failed
+        return 1;
+    }
+    free(n);
+    
+    return 0;
+}
 
-    node* newNode = (node*)malloc(sizeof(node));
+//node*
+node* push(node* top , int value){
+//inserting node at index 0
 
-    if (newNode == NULL) {
-        printf("Memory allocation failed\n");
-        return;
+node* n = (node*)malloc(sizeof(node));
+if(n==NULL){
+    printf("Stack overflow\n");
+    return 0;
+}
+
+    n->data=value;
+    n->next=top;
+    top=n;
+
+    return top;
+}
+
+void linkedlisttraversal(node* top){
+
+    node* p = top;
+
+    while(p!=NULL){
+        printf("Element : %d\n",p->data);
+        p=p->next;
+    }
+}
+        
+
+node* pull(node* top){
+
+    if(isempty(top)){
+        printf("Stack underflow");
+        return top;
     }
 
-    newNode->data = data;
-    newNode->next = top;
+    printf("The topmost element of stack is  %d\n",top->data);
+    node* p = top;
+    top=top->next;
+    free(p);
 
-    top = newNode;
-
-    printf("%d pushed into stack\n", data);
+    return top;
 }
 
 
-// POP
-void pop() {
 
-    if (top == NULL) {
-        printf("Stack Underflow\n");
-        return;
-    }
-
-    node* temp = top;
-
-    printf("%d popped from stack\n", top->data);
-
-    top = top->next;
-
-    free(temp);
-}
+        
 
 
-// PEEK
-void peek() {
+int main(){
+//side 1 is used for push and pop operations
+//stack full when memory exhausted
+//stack empty when top = NULL
 
-    if (top == NULL) {
-        printf("Stack is empty\n");
-        return;
-    }
-
-    printf("Top element: %d\n", top->data);
-}
+    node* top = (node*)malloc(sizeof(node));
+    top=NULL;//initially empty linked list
 
 
-// DISPLAY
-void display() {
+    top=push(top,74);
+    top=push(top,75);
+    top=push(top,76);
+    top=push(top,77);
+    top=push(top,78);
+    linkedlisttraversal(top);
+    printf("\n");
 
-    if (top == NULL) {
-        printf("Stack is empty\n");
-        return;
-    }
+    top = pull(top);
 
-    node* ptr = top;
+    printf("\n");
+    linkedlisttraversal(top);
 
-    printf("Stack elements:\n");
-
-    while (ptr != NULL) {
-        printf("%d\n", ptr->data);
-        ptr = ptr->next;
-    }
-}
-
-
-// CHECK IF STACK IS EMPTY
-void isEmpty() {
-
-    if (top == NULL)
-        printf("Stack is empty\n");
-    else
-        printf("Stack is not empty\n");
-}
-
-
-// MAIN
-int main() {
-
-    push(10);
-    push(20);
-    push(30);
-
-    display();
-
-    peek();
-
-    pop();
-
-    display();
-
-    isEmpty();
+    
 
     return 0;
 }
