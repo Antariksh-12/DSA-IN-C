@@ -6,180 +6,73 @@ typedef struct node{
     struct node* next;
 }node;
 
+node* deleteatbeginning(node* head){
 
-void display(node * ptr){
-    while(ptr!=NULL){
-        printf("Element :%d\n",ptr->data);
-        ptr=ptr->next;
-    }
-}
+    node* p = head;
 
-//deleting = free the heap memory
-
-
-/*
-
-1.) node* deleteatbeginning(node* head){
-
-node* p = head;
-
-head=head->next;
-free(p);
-
-return head;
-}
-
-*/
-
-/*
-
-2.) node* deleteatindex(node* head , int index){
-
-node* p = head;
-node* q = head->next;
-int i=0;
-
-while(i!=index-1 || q!=NULL){
-
-
-p=p->next;
-q=q->next;
-i++;}
-
-if(q==NULL){
-return head;
-}
-
-
-p->next=q->next;
-free(q);
-
-return head;
-}
-
-*/
-
-/*
-
-3.) node * deleteatend(node* head){
-
-node* p = head;
-node* q=  head->next;
-
-int i=0;
-
-while(q->next!=NULL){
-p=p->next;
-q=q->next;
-i++;}
-
-p->next=NULL;
-free(q);
-
-return head;
-*/
-
-/*
-
-4.) node* deletenode(node* head , int value){
-
-node*p = head;
-node* q = head->next;
-
-int i=0;
-while(q!=NULL && q->data!=value){
-q=q->next;
-p=p->next;
-
-if(q==NULL){
-return head;}
-
-i+++;}
-
-p->next=q->next;
-free(q);
-
-return head;
-}
-
-
-
-
-*/
-node* deleteatbeginning(node * head){
-
-    // node *p = head;
-    node* p;
-
-    p = head;
-    head = head->next;
+    head=head->next;
     free(p);
 
     return head;
 }
+
+node* deleatindex(node* head , int index){
+
+    node* p = head;
+    node* q = head->next;
+
+    for(int i=0 ;i<index-1 ; i++){
+        p=p->next;
+        q=q->next;
+    }
+
+    p->next=q->next;
+    free(q); 
     
-node* deleteatindex(node* head , int index){
-//q at node to delete
-    node *q=head->next;
-    node *p = head;
-
-    for(int i=0;i<index-1;i++){
-        p=p->next;
-        q=q->next;
-    }
-
-    p->next=q->next;
-    free(q);
-
-    return head; 
+    
+    return head;
 }
+    
+    
+ 
 
-node* deletelastnode(node* head){
+node* deleteatend(node* head){
 
-    node*p = head;
-    node*q = head->next;
+    node* p = head;
 
-    while(q->next!=NULL){
+    while((p->next)->next!=NULL){
         p=p->next;
-        q=q->next;
     }
 
+    free(p->next);
     p->next=NULL;
-    free(q);
 
     return head;
 }
 
-node* deletenode(node* head , int value){
+
+
+void traversal(node* head){
+
     node*p = head;
-    node*q = head->next;
 
-    while(q!=NULL && q->data!=value){
-
-        if(q==NULL){
-            return head;
-        }
-
+    while(p!=NULL){
+        printf("%d ",p->data);
         p=p->next;
-        q=q->next;
     }
-
-    if(q->data==value){
-    p->next=q->next;
-    free(q);
 }
 
-    return head;
-}
+
 
 
 int main(){
 
+   
     node *head = (node*)malloc(sizeof(node));
     node *second = (node*)malloc(sizeof(node));
     node* third = (node*)malloc(sizeof(node));
-
-    
+    node* fourth = (node*)malloc(sizeof(node));
+    node* fifth = (node*)malloc(sizeof(node));
     
     head->data=10;
     head->next=second;
@@ -188,22 +81,35 @@ int main(){
     second->next=third;
 
     third->data=30;
-    third->next=NULL;
+    third->next=fourth;
 
-    printf("Linked list before deletion:\n");
-    display(head);
+    fourth->data=40;
+    fourth->next=fifth;
 
-    printf("Linked list after deleting first element :\n");
+    fifth->data=50;
+    fifth->next=NULL;
+
+
+
+
+    traversal(head);
+    printf("\n");
+
     head = deleteatbeginning(head);
-    display(head);
 
-    printf("Linked list after deletion at end :\n");
-    head = deletelastnode(head);
-    display(head);
+    traversal(head);
+    printf("\n");
 
-    printf("Linked list after deleting given value:\n");
-    head = deletenode(head,20);
-    display(head);
 
-    return 0;
-}
+    head = deleatindex(head,1);
+
+    traversal(head);
+    printf("\n");
+
+    head = deleteatend(head);
+
+    traversal(head);
+    printf("\n");
+
+
+return 0;}
