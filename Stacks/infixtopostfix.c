@@ -1,50 +1,121 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-typedef struct stack {
+typedef struct stack{
     int top;
     int size;
     char *arr;
-} stack;
+}stack;
 
-int isempty(stack *s) {
-    if (s->top == -1)
+int isempty(stack *s){
+    if(s->top==-1){
         return 1;
-
+    }
     return 0;
 }
 
-void push(stack *s, char value) {
+int isfull(stack *s){
+    if(s->top==s->size-1){
+        return 1;
+    }
+    return 0;
+}
+
+void push(stack *s , int value){
+    if(isfull(s)){
+        return ;
+    }
+
     s->top++;
-    s->arr[s->top] = value;
+    s->arr[s->top]=value;
 }
 
-char pop(stack *s) {
+char pop(stack *s){
     char value = s->arr[s->top];
-    s->top--;
-    return value;
+   s->top--;
+   return value;
 }
 
-char peek(stack *s) {
+char peek(stack *s){
     return s->arr[s->top];
 }
 
-int precedence(char ch) {
-
-    if (ch == '^')
+int precedence(char op){
+    if(op=='^'){
         return 3;
-
-    if (ch == '*' || ch == '/')
+    }
+    if(op=='*' || op=='/'){
         return 2;
-
-    if (ch == '+' || ch == '-')
+    }
+    if(op=='+' || op=='-'){
         return 1;
-
+    }
     return 0;
 }
 
-int main() {
+int isoperator(char ch){
+    if(ch=='+' || ch=='-' || ch=='*' || ch=='/' || ch=='^'){
+        return 1;
+    }
+    return 0;
+}
+
+void infixtopostfix(char *infix , char *postfix){
+
+    stack *s;
+
+    s->size=100;
+    s->top==-1;
+    s->arr=(char*)malloc(sizeof(char));
+
+    int i=0 , j=0;
+
+    while(infix[i]!='\0'){
+    if((infix[i]>='a' && infix[i]<='z')||
+    (infix[i]>='A' && infix[i]<='Z')||
+    (infix[i]>='0' && infix[i]<='9')){
+        postfix[j]=infix[i];
+        j++;
+    }
+
+    if(infix[i]=='('){
+        push(s,infix[i]);
+    }
+
+    if(infix[i]==')'){
+        while(!isempty(s) && peek(s)=='('){
+            postfix[j]=infix[i];
+            j++;
+        }
+    if(!isempty(s)){
+        pop(s);
+    }    
+    }
+    
+    if(isoperator(infix[i])){
+
+        while(!isempty(s) && peek(s)!='(' && precedence(peek(s))>=precedence(infix[i])){
+            postfix[j++]=pop(s);
+        }
+        push(s,infix[i]);
+    }
+    i++;
+}
+
+while(!isempty(s)){
+    postfix[j++]=pop(s);
+}   
+
+
+
+postfix[j]='\0';
+
+free(s->arr);
+}
+
+
+
+int main(){
 
     char infix[100];
     char postfix[100];
@@ -52,72 +123,11 @@ int main() {
     printf("Enter infix expression: ");
     scanf("%s", infix);
 
-    stack *s = (stack *)malloc(sizeof(stack));
-
-    s->top = -1;
-    s->size = strlen(infix);
-    s->arr = (char *)malloc(s->size * sizeof(char));
-
-    int i = 0;
-    int j = 0;
-
-    while (infix[i] != '\0') {
-
-        // Operand
-        if ((infix[i] >= 'A' && infix[i] <= 'Z') ||
-            (infix[i] >= 'a' && infix[i] <= 'z')) {
-
-            postfix[j] = infix[i];
-            j++;
-        }
-
-        // Opening bracket
-        else if (infix[i] == '(') {
-
-            push(s, infix[i]);
-        }
-
-        // Closing bracket
-        else if (infix[i] == ')') {
-
-            while (peek(s) != '(') {
-                postfix[j] = pop(s);
-                j++;
-            }
-
-            pop(s);   // remove '('
-        }
-
-        // Operator
-        else {
-
-            while (!isempty(s) &&
-                   peek(s) != '(' &&
-                   precedence(peek(s)) >= precedence(infix[i])) {
-
-                postfix[j] = pop(s);
-                j++;
-            }
-
-            push(s, infix[i]);
-        }
-
-        i++;
-    }
-
-    // Pop remaining operators
-    while (!isempty(s)) {
-
-        postfix[j] = pop(s);
-        j++;
-    }
-
-    postfix[j] = '\0';
+    infixToPostfix(infix, postfix);
 
     printf("Postfix expression: %s\n", postfix);
 
-    free(s->arr);
-    free(s);
-
     return 0;
+
+
 }
