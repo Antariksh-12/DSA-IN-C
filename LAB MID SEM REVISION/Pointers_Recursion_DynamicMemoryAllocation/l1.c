@@ -3,25 +3,30 @@
 
 
 int smallest(int *arr , int n){
-
-    int* smallest =arr;
+    int *smallest = arr;
     for(int i=0;i<n;i++){
         if(*(arr+i)<*smallest){
-            smallest=(arr+i); //store address of smallest element
-            
+            smallest=(arr+i);
         }
     }
     return *smallest;
 }
 
-
 int main(){
 
-    int arr[]={1,2,3,4,5};
-    
-    int res = smallest(arr,5);
-    
+
+    int n;
+    printf("Enter the value of n :");
+    scanf("%d",&n);
+
+    int arr[n];
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+    }
+
+    int res = smallest(arr,n);
     printf("%d\n",res);
-    
+
     return 0;
 }
+

@@ -1,22 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void bubblesort(int *arr , int n){
+    if(n<=1){
+        return;
+    }
 
-// void selectionsort(int *arr , int n)
-// {
-//     for(int i=0;i<n-1;i++){
-//         int smallestidx = i;
 
-//         for(int j=i+1;j<n;j++){
-//             if(arr[j]<arr[smallestidx]){
-//                 smallestidx=j;
-//             }
-//         }
-//         int temp = arr[i];
-//         arr[i]=arr[smallestidx];
-//         arr[smallestidx]=temp;
-//     }
-// }
+    for(int j=0;j<n-1;j++){
+        if(arr[j]>arr[j+1]){
+            int temp = arr[j];
+            arr[j]=arr[j+1];
+            arr[j+1]=temp;
+        }
+    }
+
+    bubblesort(arr,n-1); //because send largest at end
+}
+
+
+void selectionsort(int *arr , int n){
+    if(n<=1){
+        return;
+    }
+
+    int smallestidx = 0;
+    for(int j=1;j<n;j++){
+        if(*(arr+j)<*(arr+smallestidx)){
+            smallestidx=j;
+        }
+    }
+    int temp = *arr;
+    *(arr)=*(arr+smallestidx);
+    *(arr+smallestidx)=temp;
+ 
+    selectionsort(arr+1,n-1);//send smallest at first 
+    
+}
 
 
 void input(int *arr , int n){
