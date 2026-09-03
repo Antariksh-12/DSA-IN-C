@@ -51,15 +51,7 @@ void display(double average , int min , int max){
     printf("Maximum Score :%d\n",max);
     printf("Minimum Score :%d\n",min);
 }    
-
-
-   
-    
-
-
-
-        
-
+  
 int main(){
 
     score* s = (score*)malloc(sizeof(score));

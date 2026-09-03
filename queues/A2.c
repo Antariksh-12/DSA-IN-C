@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef struct queue{
     int size;
     int f;
@@ -8,9 +9,7 @@ typedef struct queue{
     int *arr;
 }queue;
 
-
 int isfull(queue *q){
-
     if((q->r+1)%q->size==q->f){
         return 1;
     }
@@ -25,20 +24,19 @@ int isempty(queue *q){
 }
 
 void enqueue(queue *q , int value){
-
     if(isfull(q)){
         printf("Queue overflow");
         return;
     }
+
     q->r=(q->r+1)%q->size;
     q->arr[q->r]=value;
 }
- 
-int dequeue(queue *q){
 
+int dequeue(queue *q){
     if(isempty(q)){
-        printf("Queue underflow");
-        return 0;
+        printf("queue underflow");
+        return;
     }
 
     q->f=(q->f+1)%q->size;
@@ -49,17 +47,15 @@ int dequeue(queue *q){
 void traverse(queue *q){
 
     int i = (q->f+1)%q->size;
-
     while(i!=(q->r+1)%q->size){
         printf("%d ",q->arr[i]);
-        i=(i+1)%q->size;
+        i++;
     }
 }
 
 
 int main(){
-
-    queue* q = (queue*)malloc(sizeof(queue));
+queue* q = (queue*)malloc(sizeof(queue));
     q->size=5;
     q->f=0;
     q->r=0;
@@ -69,10 +65,11 @@ int main(){
     enqueue(q,2);
     enqueue(q,3);
     enqueue(q,4);
-   
-    
 
     traverse(q);
 
     return 0;
+    
+   
+    
 }

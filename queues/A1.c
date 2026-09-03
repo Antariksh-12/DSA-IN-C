@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef struct queue{
     int size;
     int f;
@@ -22,44 +23,40 @@ int isempty(queue *q){
     return 0;
 }
 
-void enqueue(queue *q , int value){
+void enqueue(queue *q , int data){
     if(isfull(q)){
-        printf("Queue overflow");
-        return ;
+        return;
     }
 
     q->r++;
-    q->arr[q->r]=value;
+    q->arr[q->r]=data;
 }
 
 int dequeue(queue *q){
     if(isempty(q)){
         printf("Queue underflow");
-        return -1;
+        return 0;
     }
     q->f++;
-    int value =  q->arr[q->f];
+    int value  = q->arr[q->f];
     return value;
 }
-
-
 
 void traversefront(queue *q){
     for(int i=q->f+1;i<=q->r;i++){
         printf("%d ",q->arr[i]);
     }
 }
-        
+
 void traverseback(queue *q){
     for(int i=q->r;i>q->f;i--){
         printf("%d ",q->arr[i]);
     }
 }
 
-
 int main(){
 
-    queue* q = (queue*)malloc(sizeof(queue));
+    queue *q = (queue*)malloc(sizeof(queue));
     q->size=100;
     q->f=-1;
     q->r=-1;
@@ -71,17 +68,11 @@ int main(){
     enqueue(q,4);
     enqueue(q,5);
     enqueue(q,6);
+    enqueue(q,7);
 
+    traversefront(q);
+    printf("\n");
     traverseback(q);
-    printf("\n");
-    traversefront(q);
-
-    dequeue(q);
-    printf("\n");
-    traversefront(q);
-
-    free(q->arr);
-    free(q);
 
     return 0;
 }
