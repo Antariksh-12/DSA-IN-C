@@ -7,76 +7,67 @@ typedef struct phoneContact{
     char* name;
 }phoneContact;
 
-void create(phoneContact* p1 , int n){
+void create(phoneContact* phone , int n){
     for(int i=0;i<n;i++){
-        p1[i].name = (char*)malloc(100*sizeof(char));
-        printf("Enter name %d :",i+1);
-        scanf(" %[^\n]",p1[i].name);
-        printf("Enter contact number :");
-        scanf("%ld",&p1[i].phoneNum);
-    } 
+        phone[i].name= (char*)malloc(100*sizeof(char));
+        printf("Enter person name :");
+        scanf(" %[^\n]",phone[i].name);
+        printf("Enter phone number :");
+        scanf("%ld",&phone[i].phoneNum);
+    }
+
 }
 
-long int findContact(phoneContact *p1 , int n , char* searchName){
-
+long int FindContact(phoneContact* contact , int n , char name[]){
     for(int i=0;i<n;i++){
-        if(strcmp(p1[i].name,searchName)==0){
-            return p1[i].phoneNum;
+        if(strcmp(contact[i].name,name)==0){
+            return contact[i].phoneNum;
         }
     }
     return -1;
 }
 
-void display(phoneContact* p1 , int n){
+void display(phoneContact* contact , int n){
     for(int i=0;i<n;i++){
-        printf("Details\n");
-        printf("Name :%s\n",p1[i].name);
-        printf("Contact :%ld\n",p1[i].phoneNum);
+        printf("Details for person %d\n",i+1);
+        printf("Name :%s\n",contact[i].name);
+        printf("Phone Number :%ld\n",contact[i].phoneNum);
     }
 }
-
-
 
 int main(){
 
     int n;
-    printf("Enter the number of people :");
+    printf("Enter the number of persons :");
     scanf("%d",&n);
+    phoneContact* contact = (phoneContact*)malloc(n*sizeof(phoneContact));
 
-    phoneContact* p1 = (phoneContact*)malloc(n*sizeof(phoneContact));
 
-    create(p1,n);
-    display(p1,n);
+    create(contact , n);
+    display(contact , n);
 
     char searchname[100];
     printf("Enter the name to search :");
     scanf(" %[^\n]",searchname);
 
-    long int result = findContact(p1,n,searchname);
-
-    if(result!=-1){
-        printf("Phone numebr found :%ld",result);
-    }else{
-
-        printf("Name not found\n");
+    if(FindContact(contact , n ,searchname)==-1){
 
         n++;
-        p1 = (phoneContact*)realloc(p1,n*sizeof(phoneContact));
-
-        int last = n-1;//last index
-        p1[last].name=(char*)malloc(100*sizeof(char));
-        strcpy(p1[last].name,searchname);
-
-        display(p1,n);
+        contact = (phoneContact*)realloc(contact,n*sizeof(phoneContact));
+        int last = n-1;
+        contact[last].name = (char*)malloc(100*sizeof(char));
+        strcpy(contact[last].name,searchname);
+    }else{
+        printf("Name found\n");
+        long int res = (FindContact(contact,n,searchname));
+        printf("The phone number is %ld\n",res);
     }
 
-    for(int i=0;i<n;i++){
-        free(p1[i].name);
-    }
-    free(p1);
 
-    printf("\nMemory released ");
-
+   for(int i=0;i<n;i++){
+    free(contact[i].name);
+}
+free(contact);
+    
     return 0;
 }
-
