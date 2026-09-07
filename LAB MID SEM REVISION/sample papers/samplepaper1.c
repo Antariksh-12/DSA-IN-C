@@ -9,7 +9,7 @@ typedef struct phoneContact{
 
 void create(phoneContact* phone , int n){
     for(int i=0;i<n;i++){
-        phone[i].name= (char*)malloc(100*sizeof(char));
+        (phone+i)->name= (char*)malloc(100*sizeof(char));
         printf("Enter person name :");
         scanf(" %[^\n]",phone[i].name);
         printf("Enter phone number :");
@@ -20,7 +20,7 @@ void create(phoneContact* phone , int n){
 
 long int FindContact(phoneContact* contact , int n , char name[]){
     for(int i=0;i<n;i++){
-        if(strcmp(contact[i].name,name)==0){
+        if(strcmp((contact+i)->name,name)==0){
             return contact[i].phoneNum;
         }
     }
