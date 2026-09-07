@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct student{
+    char *name;
+    int roll;
+    char *grade;
+}student;
+
+void input(student* s , int n){
+    for(int i=0;i<n;i++){
+        printf("Enter name :");
+        scanf(" %99[^\n]",(s+i)->name);
+        printf("Enter roll number :");
+        scanf("%d",&(s+i)->roll);
+        printf("Enter grade :");
+        scanf(" %99[^\n]",(s+i)->grade);
+    }
+}
+
+void display(student *s , int n){
+    for(int i=0;i<n;i++){
+        printf("Name :%s\n",(s+i)->name);
+        printf("Roll Number :%d\n",(s+i)->roll);
+        printf("Enter grade :%s\n",(s+i)->grade);
+    }
+}
+
+void sort(student *s , int n){
+
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-i-1;j++){
+            if((s+j)->roll > (s+j+1)->roll){
+                student temp = *(s+j);
+                *(s+j)=*(s+j+1);
+                *(s+j+1)=temp;
+            }
+        } 
+    }
+}
+
+        
+int main(){
+
+    int n;
+    printf("Enter the value of n:");
+    scanf("%d",&n);
+
+    student* s = (student*)malloc(n*sizeof(student));
+    for(int i=0;i<n;i++){
+        (s+i)->name=(char*)malloc(100*sizeof(char));
+        (s+i)->grade=(char*)malloc(100*sizeof(char));
+    }
+
+    input(s,n);
+    sort(s,n);
+    display(s,n);
+    
+    for(int i=0;i<n;i++){
+        free((s+i)->name);
+        free((s+i)->grade);
+    }
+    free(s);
+    
+
+    return 0;
+}
